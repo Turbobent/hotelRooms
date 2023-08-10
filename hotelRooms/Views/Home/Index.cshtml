@@ -1,0 +1,32 @@
+﻿@{
+	ViewData["Title"] = "Home Page";
+
+}
+
+
+<div class="text-center">
+	<h1 class="display-4">Welcome</h1>
+	<p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+<div>
+	<h2>List of Rooms:</h2>
+	@Model list<hotelRooms.Model.Rooms>
+
+		@foreach (var rooms in Model)
+		{
+			<table>
+				<tr>
+					<td>@rooms.RoomId</td>
+					<td>@rooms.RoomType</td>
+					<td>@rooms.Price</td>
+					<td>@rooms.occipied</td>
+					<td>@rooms.maxPersoncount</td>
+					<td>@rooms.startdate</td>
+					<td>@rooms.slutdate</td>
+					<td>@rooms.temp</td>
+					
+				</tr>
+			</table>
+		}
+
+
