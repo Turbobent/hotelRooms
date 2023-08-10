@@ -1,32 +1,34 @@
-﻿@{
-	ViewData["Title"] = "Home Page";
-
+﻿﻿@using HotelH2.Controllers;
+@{
+    ViewData["Title"] = "Home Page";
 }
-
+@model List<Rooms>
 
 <div class="text-center">
-	<h1 class="display-4">Welcome</h1>
-	<p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Welcome to HotelH2</h1>
+
+    <table>
+        <tr>
+            <th>Room ID</th>
+            <th>RoomType</th>
+            <th>Price</th>
+            <th>Vacancy</th>
+            <th>Room for</th>
+
+        </tr>
+        @foreach (var room in Model)
+        {
+            <tr>
+                <td>@room.ID</td>
+                <td>@room.Type</td>
+                <td>@room.Price</td>
+                <td>@room.occipied</td>
+                <td>@room.maxPersoncount</td>
+                <td>@room.startdate</td>
+                <td>@room.slutdate</td>
+                <td>@room.temp</td>
+            </tr>
+        }
+    </table>
 </div>
-<div>
-	<h2>List of Rooms:</h2>
-	@Model list<hotelRooms.Model.Rooms>
-
-		@foreach (var rooms in Model)
-		{
-			<table>
-				<tr>
-					<td>@rooms.RoomId</td>
-					<td>@rooms.RoomType</td>
-					<td>@rooms.Price</td>
-					<td>@rooms.occipied</td>
-					<td>@rooms.maxPersoncount</td>
-					<td>@rooms.startdate</td>
-					<td>@rooms.slutdate</td>
-					<td>@rooms.temp</td>
-					
-				</tr>
-			</table>
-		}
-
 
