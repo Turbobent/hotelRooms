@@ -53,13 +53,26 @@ namespace HotelH2.Controllers
                                 tempList.Price = (int)reader[2];
                                 tempList.occipied = (bool)reader[3];
                                 tempList.maxPersoncount = (int)reader[4];
-                                tempList.startdate = (DateOnly)reader[5];
-                                tempList.slutdate = (DateOnly)reader[6];
+                                //tempList.startdate = (DateOnly)reader[5];
+                                //tempList.slutdate = (DateOnly)reader[6];
+                                tempList.temp = (int)reader[7];
+                                if (!reader.IsDBNull(5))
+                                {
+                                    DateTime startDateTime = reader.GetDateTime(5);
+                                    tempList.startdate = new System.DateOnly(startDateTime.Year, startDateTime.Month, startDateTime.Day);
+                                }
+
+                                if (!reader.IsDBNull(6))
+                                {
+                                    DateTime slutDateTime = reader.GetDateTime(6);
+                                    tempList.slutdate = new System.DateOnly(slutDateTime.Year, slutDateTime.Month, slutDateTime.Day);
+                                }
+
                                 tempList.temp = (int)reader[7];
 
                                 RoomsList.Add(tempList);
+                             
                             }
-
                         }
                     }
                     connection.Close();

@@ -7,28 +7,35 @@
 <div class="text-center">
     <h1 class="display-4">Welcome to HotelH2</h1>
 
-    <table>
-        <tr>
-            <th>Room ID</th>
-            <th>RoomType</th>
-            <th>Price</th>
-            <th>Vacancy</th>
-            <th>Room for</th>
-
-        </tr>
-        @foreach (var room in Model)
-        {
+    <table id="historyTable" class="table">
+        <thead>
             <tr>
-                <td>@room.ID</td>
-                <td>@room.Type</td>
-                <td>@room.Price</td>
-                <td>@room.occipied</td>
-                <td>@room.maxPersoncount</td>
-                <td>@room.startdate</td>
-                <td>@room.slutdate</td>
-                <td>@room.temp</td>
+                <th>Id</th>
+                <th>Type</th>
+                <th>RoomTemp</th>
+                <th>Price</th>
+                <th>Available</th>
+                <th>DateStart</th>
+                <th>DateEnd</th>
             </tr>
-        }
+        </thead>
+        <tbody>
+            @foreach (var room in Model)
+            {
+                <tr>
+                    <td>@room.ID</td>
+                    <td>@room.Type</td>
+                    <td>@room.Price</td>
+                    <td>@room.occipied</td>
+                    <td>@room.maxPersoncount</td>
+                    <td>@room.startdate</td>
+                    <td>@room.slutdate</td>
+                    <td>@room.temp</td>
+                </tr>
+            }
+        </tbody>
     </table>
 </div>
+
+
 
