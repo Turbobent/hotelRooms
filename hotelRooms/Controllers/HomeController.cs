@@ -23,10 +23,7 @@ namespace HotelH2.Controllers
             return View();
         }
 
-        public IActionResult Login()
-        {
-            return View();
-        }
+     
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
@@ -36,7 +33,7 @@ namespace HotelH2.Controllers
 
         public List<Rooms> ReadRoom(List<Rooms> RoomsList)
         {
-            string ConnectionString = "Data Source=PCVDATALAP100\\SQLEXPRESS;Integrated Security=True;Connect Timeout=30;Encrypt=False";
+           string ConnectionString = "Data Source=PCVDATALAP100\\SQLEXPRESS;Integrated Security=True;Connect Timeout=30;Encrypt=False";
 
             using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
@@ -58,8 +55,7 @@ namespace HotelH2.Controllers
                                 tempList.Price = (int)reader[2];
                                 tempList.occipied = (bool)reader[3];
                                 tempList.maxPersoncount = (int)reader[4];
-                                //tempList.startdate = (DateOnly)reader[5];
-                                //tempList.slutdate = (DateOnly)reader[6];
+
                                 tempList.temp = (int)reader[7];
                                 if (!reader.IsDBNull(5))
                                 {
