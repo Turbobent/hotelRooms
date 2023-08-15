@@ -35,7 +35,7 @@
                     <td>@room.startdate</td>
                     <td>@room.slutdate</td>
                     <td>@room.temp</td>
-                    <td><button>Edit</button> <button> Delete</button> </td>
+                    <td><a class="btn btn-primary" href="@Url.Action("Update", new { id = room.ID })">Edit</a></td>
                 </tr>
             }
         </tbody>
