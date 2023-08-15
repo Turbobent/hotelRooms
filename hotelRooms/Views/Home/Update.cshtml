@@ -18,24 +18,29 @@
     <hr />
     <div class="row">
         <div class="col-md-4">
-            <form action="@Url.Action("Update")" method="post">
+            <form asp-action="UpdateRoomDetails" method="post">
                 <div class="text-danger">
                    
                 </div>
-                <div class="form-group">
+                <div class="form-group crudInput">
                     <label for="ID">ID</label>
-                    <input type="text" id="ID" name="ID" class="form-control" value="@Model.ID" />
+                    <input type="number" id="ID" name="ID" class="form-control" value="@Model.ID" />
                    
                 </div>
-                <div class="form-group">
+                <div class="form-group crudInput">
                     <label for="Type">Type</label>
-                    <input type="text" id="Type" name="Type" class="form-control" value="@Model.Type" />
+                    <input type="text" id="Type" name="Type" class="form-control" placeholder="rice" value="@Model.Type" />
                    
                 </div>
-                <div class="form-group">
+                <div class="form-group ">
                     <label for="Price">Price</label>
-                    <input type="text" id="Price" name="Price" class="form-control" value="@Model.Price" />
+                    <input type="text" id="Price" name="price" class="form-control" value="@Model.price" />
               
+                </div>
+                <div class="form-group ">
+                    <label for="maxPersoncount">maxPersoncount</label>
+                    <input type="text" id="maxpeople" name="maxPersoncount" class="form-control" value="@Model.maxPersoncount" />
+
                 </div>
                 <div class="form-group form-check">
                     <label class="form-check-label">
@@ -44,22 +49,22 @@
                     </label>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group crudInput">
                     <label for="temp">Temp</label>
                     <input type="text" id="temp" name="temp" class="form-control" value="@Model.temp" />
                   
                 </div>
-                <div class="form-group">
+             @*   <div class="form-group crudInput">
                     <label for="startdate">start date</label>
                     <input type="date" id="startdate" name="Start date" class="form-control" value="@Model.startdate" />
 
                 </div>
-                <div class="form-group">
-                    <label for="slutdate">slu</label>
+                <div class="form-group crudInput">
+                    <label for="slutdate">End date</label>
                     <input type="date" id="enddate" name="End date" class="form-control" value="@Model.slutdate" />
 
-                </div>
-                <div class="form-group">
+                </div>*@
+                <div class="form-group crudInput">
                     <input type="submit" value="Save" class="btn btn-primary" />
                 </div>
             </form>

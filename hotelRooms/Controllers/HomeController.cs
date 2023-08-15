@@ -44,11 +44,10 @@ namespace HotelH2.Controllers
                                 Rooms roomToUpdate = new Rooms();
                                 roomToUpdate.ID = (int)reader[0];
                                 roomToUpdate.Type = (string)reader[1];
-                                roomToUpdate.Price = (int)reader[2];
+                                roomToUpdate.price = (int)reader[2];
                                 roomToUpdate.occipied = (bool)reader[3];
                                 roomToUpdate.maxPersoncount = (int)reader[4];
-                                roomToUpdate.startdate = (DateOnly)reader[5];
-                                roomToUpdate.slutdate = (DateOnly)reader[6];
+                              
 
                                 return View(roomToUpdate);
                             }
@@ -68,35 +67,35 @@ namespace HotelH2.Controllers
         }
 
         [HttpPost]
-        public bool UpdateRoomDetails(Rooms updatedRoom)
+        public IActionResult UpdateRoomDetails(Rooms updatedRoom)
         {
+            // Determine whether the checkbox is checked or not
+            bool isOccipied = !string.IsNullOrEmpty(Request.Form["occipied"]);
+
+            string query = "UPDATE hoteltest.dbo.Rooms SET Type = @Type, price = @price, occipied = @Occipied, maxPersoncount = @MaxPersoncount WHERE ID = @ID";
+
             using (SqlConnection con = new SqlConnection("Data Source=PCVDATALAP100\\SQLEXPRESS;Integrated Security=True;Connect Timeout=30;Encrypt=False"))
             {
-                try
-                {
+               
                     con.Open();
-                    string query = "UPDATE hoteltest.dbo.Rooms SET Type = @Type, Price = @Price, occipied = @Occipied, maxPersoncount = @MaxPersoncount, startdate = @StartDate, slutdate = @EndDate WHERE ID = @ID";
-
+                  
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
                         cmd.Parameters.AddWithValue("@ID", updatedRoom.ID);
                         cmd.Parameters.AddWithValue("@Type", updatedRoom.Type);
-                        cmd.Parameters.AddWithValue("@Price", updatedRoom.Price);
-                        cmd.Parameters.AddWithValue("@Occipied", updatedRoom.occipied);
+                        cmd.Parameters.AddWithValue("@price", updatedRoom.price);
+                        cmd.Parameters.AddWithValue("@Occipied", isOccipied);
                         cmd.Parameters.AddWithValue("@MaxPersoncount", updatedRoom.maxPersoncount);
-                        cmd.Parameters.AddWithValue("@StartDate", updatedRoom.startdate);
-                        cmd.Parameters.AddWithValue("@EndDate", updatedRoom.slutdate);
+                        //cmd.Parameters.AddWithValue("@StartDate", updatedRoom.startdate);
+                        //cmd.Parameters.AddWithValue("@EndDate", updatedRoom.slutdate);
 
                         int rowsAffected = cmd.ExecuteNonQuery();
 
-                        return rowsAffected > 0;
+
+                        return View(updatedRoom);
                     }
-                }
-                catch (SqlException ex)
-                {
-                    // Handle exceptions here
-                    return false;
-                }
+                
+                
             }
         }
 
@@ -129,22 +128,22 @@ namespace HotelH2.Controllers
 
                                 tempList.ID = (int)reader[0];
                                 tempList.Type = (string)reader[1];
-                                tempList.Price = (int)reader[2];
+                                tempList.price = (int)reader[2];
                                 tempList.occipied = (bool)reader[3];
                                 tempList.maxPersoncount = (int)reader[4];
 
-                                tempList.temp = (int)reader[7];
-                                if (!reader.IsDBNull(5))
-                                {
-                                    DateTime startDateTime = reader.GetDateTime(5);
-                                    tempList.startdate = new System.DateOnly(startDateTime.Year, startDateTime.Month, startDateTime.Day);
-                                }
+                                //tempList.temp = (int)reader[7];
+                                //if (!reader.IsDBNull(5))
+                                //{
+                                //    DateTime startDateTime = reader.GetDateTime(5);
+                                //    tempList.startdate = new System.DateTime(startDateTime.Year, startDateTime.Month, startDateTime.Day);
+                                //}
 
-                                if (!reader.IsDBNull(6))
-                                {
-                                    DateTime slutDateTime = reader.GetDateTime(6);
-                                    tempList.slutdate = new System.DateOnly(slutDateTime.Year, slutDateTime.Month, slutDateTime.Day);
-                                }
+                                //if (!reader.IsDBNull(6))
+                                //{
+                                //    DateTime slutDateTime = reader.GetDateTime(6);
+                                //    tempList.slutdate = new System.DateTime(slutDateTime.Year, slutDateTime.Month, slutDateTime.Day);
+                                //}
 
                                 tempList.temp = (int)reader[7];
 

@@ -17,8 +17,8 @@
                 <th>Price</th>
                 <th>occipied</th>
                 <th>Max people</th>
-                <th>DateStart</th>
-                <th>DateEnd</th>
+               @* <th>DateStart</th>
+                <th>DateEnd</th>*@
                 <th>Temp</th>
                 <th>Edit</th>
             </tr>
@@ -29,11 +29,11 @@
                 <tr>
                     <td>@room.ID</td>
                     <td>@room.Type</td>
-                    <td>@room.Price</td>
+                    <td>@room.price</td>
                     <td>@room.occipied</td>
                     <td>@room.maxPersoncount</td>
-                    <td>@room.startdate</td>
-                    <td>@room.slutdate</td>
+              @*      <td>@room.startdate</td>
+                    <td>@room.slutdate</td>*@
                     <td>@room.temp</td>
                     <td><a class="btn btn-primary" href="@Url.Action("Update", new { id = room.ID })">Edit</a></td>
                 </tr>
