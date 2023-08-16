@@ -53,7 +53,7 @@ namespace HotelH2.Controllers
                         cmd.Parameters.AddWithValue("@Type", newRoom.Type);
                         cmd.Parameters.AddWithValue("@price", newRoom.price);
                         cmd.Parameters.AddWithValue("@MaxPersoncount", newRoom.maxPersoncount);
-                        cmd.Parameters.AddWithValue("@occipied", newRoom.occipied = false);
+                        cmd.Parameters.AddWithValue("@occipied", false);
 
                         int rowsAffected = cmd.ExecuteNonQuery();
 
@@ -97,7 +97,7 @@ namespace HotelH2.Controllers
                                 roomToUpdate.ID = (int)reader[0];
                                 roomToUpdate.Type = (string)reader[1];
                                 roomToUpdate.price = (int)reader[2];
-                                roomToUpdate.occipied = (bool)reader[3];
+                                roomToUpdate.occipied = reader.IsDBNull(3) ? false : (bool)reader[3];
                                 roomToUpdate.maxPersoncount = (int)reader[4];
 
 
@@ -185,9 +185,10 @@ namespace HotelH2.Controllers
                                 tempList.ID = (int)reader[0];
                                 tempList.Type = (string)reader[1];
                                 tempList.price = (int)reader[2];
-                                tempList.occipied = (bool)reader[3];
+                                tempList.occipied = reader.IsDBNull(3) ? false : (bool)reader[3];
                                 tempList.maxPersoncount = (int)reader[4];
 
+                               
                                 //tempList.temp = (int)reader[7];
                                 //if (!reader.IsDBNull(5))
                                 //{
@@ -201,7 +202,7 @@ namespace HotelH2.Controllers
                                 //    tempList.slutdate = new System.DateTime(slutDateTime.Year, slutDateTime.Month, slutDateTime.Day);
                                 //}
 
-                                tempList.temp = (int)reader[7];
+                             //   tempList.temp = (int)reader[7];
 
                                 RoomsList.Add(tempList);
 
