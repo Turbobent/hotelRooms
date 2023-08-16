@@ -1,6 +1,5 @@
 ﻿﻿@using HotelH2.Controllers;
-<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
-<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -12,7 +11,7 @@
     <table id="historyTable" class="table">
         <thead>
             <tr>
-                <th>Id</th>
+                <th>Room number</th>
                 <th>Type</th>
                 <th>Price</th>
                 <th>occipied</th>
@@ -23,6 +22,9 @@
                 <th>Edit</th>
             </tr>
         </thead>
+        <p>
+            <a id="btnclick" href="https://localhost:7213/Home/Create" class="btn btn-primary">Create room</a>
+        </p>
         <tbody>
             @foreach (var room in Model)
             {
@@ -32,7 +34,7 @@
                     <td>@room.price</td>
                     <td>@room.occipied</td>
                     <td>@room.maxPersoncount</td>
-              @*      <td>@room.startdate</td>
+                 @*   <td>@room.startdate</td>
                     <td>@room.slutdate</td>*@
                     <td>@room.temp</td>
                     <td><a class="btn btn-primary" href="@Url.Action("Update", new { id = room.ID })">Edit</a></td>

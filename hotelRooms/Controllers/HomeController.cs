@@ -1,6 +1,7 @@
 ﻿
 using hotelRooms.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
@@ -10,7 +11,6 @@ namespace HotelH2.Controllers
     public class HomeController : Controller
     {
         public List<Rooms> RoomsList = new List<Rooms>();
-
 
         public IActionResult Index()
         {
@@ -22,6 +22,58 @@ namespace HotelH2.Controllers
         public IActionResult Privacy()
         {
             return View();
+        }
+        public IActionResult Create()
+        {
+
+
+            List<SelectListItem> roomTypes = new List<SelectListItem>
+    { 
+        new SelectListItem { Text = "Standard", Value = "Standard" },
+        new SelectListItem { Text = "Premium", Value = "Premium" },
+        new SelectListItem { Text = "Delux", Value = "Delux" }
+    };
+
+            ViewData["RoomTypes"] = roomTypes;
+
+            return View();
+        }
+        [HttpPost]
+        public IActionResult CreateRooms(Rooms newRoom)
+        {
+            using (SqlConnection con = new SqlConnection("Data Source=PCVDATALAP100\\SQLEXPRESS;Integrated Security=True;Connect Timeout=30;Encrypt=False"))
+            {
+                try
+                {
+                    con.Open();
+                    string query = "INSERT INTO hoteltest.dbo.Rooms (Type, price, maxPersoncount) VALUES (@Type, @price, @MaxPersoncount)";
+
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@Type", newRoom.Type);
+                        cmd.Parameters.AddWithValue("@price", newRoom.price);
+                        cmd.Parameters.AddWithValue("@MaxPersoncount", newRoom.maxPersoncount);
+                        cmd.Parameters.AddWithValue("@occipied", newRoom.occipied = false);
+
+                        int rowsAffected = cmd.ExecuteNonQuery();
+
+                        if (rowsAffected > 0)
+                        {
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            // Handle insert failure here
+                        }
+                    }
+                    return RedirectToAction("Index");
+                }
+                catch (SqlException ex)
+                {
+                    ModelState.AddModelError("", "An error occurred while creating the room. Please try again.");
+                    return View("Create", newRoom);
+                }
+            }
         }
         public IActionResult Update(int id)
         {
@@ -47,7 +99,7 @@ namespace HotelH2.Controllers
                                 roomToUpdate.price = (int)reader[2];
                                 roomToUpdate.occipied = (bool)reader[3];
                                 roomToUpdate.maxPersoncount = (int)reader[4];
-                              
+
 
                                 return View(roomToUpdate);
                             }
@@ -67,18 +119,19 @@ namespace HotelH2.Controllers
         }
 
         [HttpPost]
-        public IActionResult UpdateRoomDetails(Rooms updatedRoom)
+        public bool UpdateRoomDetails(Rooms updatedRoom)
         {
             // Determine whether the checkbox is checked or not
             bool isOccipied = !string.IsNullOrEmpty(Request.Form["occipied"]);
 
-            string query = "UPDATE hoteltest.dbo.Rooms SET Type = @Type, price = @price, occipied = @Occipied, maxPersoncount = @MaxPersoncount WHERE ID = @ID";
+            string query = "UPDATE hoteltest.dbo.Rooms SET Type = @Type, price = @price, occipied = @Occipied, maxPersoncount = @MaxPersoncount, temp = @temp WHERE ID = @ID";
 
             using (SqlConnection con = new SqlConnection("Data Source=PCVDATALAP100\\SQLEXPRESS;Integrated Security=True;Connect Timeout=30;Encrypt=False"))
             {
-               
+                try
+                {
                     con.Open();
-                  
+
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
                         cmd.Parameters.AddWithValue("@ID", updatedRoom.ID);
@@ -86,20 +139,23 @@ namespace HotelH2.Controllers
                         cmd.Parameters.AddWithValue("@price", updatedRoom.price);
                         cmd.Parameters.AddWithValue("@Occipied", isOccipied);
                         cmd.Parameters.AddWithValue("@MaxPersoncount", updatedRoom.maxPersoncount);
+                        cmd.Parameters.AddWithValue("@temp", updatedRoom.temp);
                         //cmd.Parameters.AddWithValue("@StartDate", updatedRoom.startdate);
                         //cmd.Parameters.AddWithValue("@EndDate", updatedRoom.slutdate);
 
                         int rowsAffected = cmd.ExecuteNonQuery();
 
 
-                        return View(updatedRoom);
+                        return rowsAffected > 0;
                     }
-                
-                
+                }
+                catch (SqlException ex)
+                {
+                    // Handle exceptions here
+                    return false;
+                }
             }
         }
-
-
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
@@ -109,7 +165,7 @@ namespace HotelH2.Controllers
 
         public List<Rooms> ReadRoom(List<Rooms> RoomsList)
         {
-           string ConnectionString = "Data Source=PCVDATALAP100\\SQLEXPRESS;Integrated Security=True;Connect Timeout=30;Encrypt=False";
+            string ConnectionString = "Data Source=PCVDATALAP100\\SQLEXPRESS;Integrated Security=True;Connect Timeout=30;Encrypt=False";
 
             using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
@@ -148,7 +204,7 @@ namespace HotelH2.Controllers
                                 tempList.temp = (int)reader[7];
 
                                 RoomsList.Add(tempList);
-                             
+
                             }
                         }
                     }
@@ -162,5 +218,6 @@ namespace HotelH2.Controllers
             }
             return RoomsList;
         }
+
     }
 }
