@@ -6,7 +6,7 @@
 @model List<Rooms>
 
 <div class="text-center">
-    <h1 class="display-4">Welcome to HotelH2</h1>
+    <h1 class="display-4">Welcome to Hotel H2</h1>
 
     <table id="historyTable" class="table">
         <thead>
@@ -18,7 +18,7 @@
                 <th>Max people</th>
                @* <th>DateStart</th>
                 <th>DateEnd</th>*@
-                <th>Temp</th>
+              @*  <th>Temp</th>*@
                 <th>Edit</th>
             </tr>
         </thead>
@@ -36,14 +36,51 @@
                     <td>@room.maxPersoncount</td>
                  @*   <td>@room.startdate</td>
                     <td>@room.slutdate</td>*@
-                    <td>@room.temp</td>
+                 @*   <td>@room.temp</td>*@
                     <td><a class="btn btn-primary" href="@Url.Action("Update", new { id = room.ID })">Edit</a></td>
-                    <td><a class="btn btn-primary" style="background-color: red" href="@Url.Action("Delete", new { id = room.ID })">Delete</a></td>
-                </tr>
+                    <td>
+                        <a class="btn btn-danger delete-btn" style="background-color:red" data-id="@room.ID">Delete</a>
+                    </td>
+               </tr>
             }
         </tbody>
+
     </table>
+
+    @section scripts {
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const deleteButtons = document.querySelectorAll(".delete-btn");
+
+                deleteButtons.forEach(button => {
+                    button.addEventListener("click", function (event) {
+                        event.preventDefault();
+
+                        const roomId = button.getAttribute("data-id");
+                        const confirmMessage = "Are you sure you want to delete this room?";
+                        if (confirm(confirmMessage)) {
+                            const form = document.createElement("form");
+                            form.method = "POST";
+                            form.action = "@Url.Action("Delete")";
+                            form.style.display = "none";
+
+                            const input = document.createElement("input");
+                            input.type = "hidden";
+                            input.name = "id";
+                            input.value = roomId;
+
+                            form.appendChild(input);
+                            document.body.appendChild(form);
+
+                            form.submit();
+                        }
+                    });
+                });
+            });
+        </script>
+    }
 </div>
+
 
 
 

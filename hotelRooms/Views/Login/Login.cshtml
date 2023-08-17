@@ -3,10 +3,11 @@
 @model List<Login>
 @{
     ViewData["Title"] = "Login";
-   
+    Layout = "/Views/Shared/LoginLayout.cshtml";
 }
 <form method="post" action="/Login/Login">
 
+  
     <div class="form-group">
         <label for="AdminUsername">Username</label>
         <input type="text" class="form-control" id="AdminUsername" name="AdminUsername" placeholder="Username">

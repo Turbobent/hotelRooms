@@ -10,6 +10,12 @@ namespace HotelH2.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IConfiguration _configuration;
+
+        public HomeController(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
         public List<Rooms> RoomsList = new List<Rooms>();
 
         public IActionResult Index()
@@ -23,10 +29,38 @@ namespace HotelH2.Controllers
         {
             return View();
         }
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string query = $"DELETE FROM hoteltest.dbo.Rooms WHERE ID = @ID";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@ID", id);
+
+                    int rowsAffected = command.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
+                    {
+                     
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                     
+                        return View("Error");
+                    }
+                }
+            }
+        }
+
         public IActionResult Create()
         {
-
-
             List<SelectListItem> roomTypes = new List<SelectListItem>
     { 
         new SelectListItem { Text = "Standard", Value = "Standard" },
@@ -77,8 +111,9 @@ namespace HotelH2.Controllers
         }
         public IActionResult Update(int id)
         {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
 
-            using (SqlConnection con = new SqlConnection("Data Source=PCVDATALAP100\\SQLEXPRESS;Integrated Security=True;Connect Timeout=30;Encrypt=False"))
+            using (SqlConnection con = new SqlConnection(connectionString))
             {
                 try
                 {
@@ -99,7 +134,7 @@ namespace HotelH2.Controllers
                                 roomToUpdate.price = (int)reader[2];
                                 roomToUpdate.occipied = reader.IsDBNull(3) ? false : (bool)reader[3];
                                 roomToUpdate.maxPersoncount = (int)reader[4];
-
+                                roomToUpdate.temp = reader.IsDBNull(5) ? 0 : (int)reader[5];
 
                                 return View(roomToUpdate);
                             }
@@ -112,8 +147,7 @@ namespace HotelH2.Controllers
                 }
                 catch (SqlException ex)
                 {
-                    // Handle exceptions here
-                    return View("Error"); // Redirect to an error page or show an error view
+                    return View("Error"); 
                 }
             }
         }
@@ -125,8 +159,9 @@ namespace HotelH2.Controllers
             bool isOccipied = !string.IsNullOrEmpty(Request.Form["occipied"]);
 
             string query = "UPDATE hoteltest.dbo.Rooms SET Type = @Type, price = @price, occipied = @Occipied, maxPersoncount = @MaxPersoncount, temp = @temp WHERE ID = @ID";
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
 
-            using (SqlConnection con = new SqlConnection("Data Source=PCVDATALAP100\\SQLEXPRESS;Integrated Security=True;Connect Timeout=30;Encrypt=False"))
+            using (SqlConnection con = new SqlConnection(connectionString))
             {
                 try
                 {
@@ -145,7 +180,7 @@ namespace HotelH2.Controllers
 
                         int rowsAffected = cmd.ExecuteNonQuery();
 
-
+                       
                         return rowsAffected > 0;
                     }
                 }
@@ -165,9 +200,9 @@ namespace HotelH2.Controllers
 
         public List<Rooms> ReadRoom(List<Rooms> RoomsList)
         {
-            string ConnectionString = "Data Source=PCVDATALAP100\\SQLEXPRESS;Integrated Security=True;Connect Timeout=30;Encrypt=False";
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
 
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
                 try
@@ -187,9 +222,10 @@ namespace HotelH2.Controllers
                                 tempList.price = (int)reader[2];
                                 tempList.occipied = reader.IsDBNull(3) ? false : (bool)reader[3];
                                 tempList.maxPersoncount = (int)reader[4];
+                               // tempList.temp = reader.IsDBNull(5) ? 0 : (int)reader[5];
 
-                               
-                                //tempList.temp = (int)reader[7];
+
+                                // tempList.temp = (int)reader[7];
                                 //if (!reader.IsDBNull(5))
                                 //{
                                 //    DateTime startDateTime = reader.GetDateTime(5);
@@ -202,7 +238,7 @@ namespace HotelH2.Controllers
                                 //    tempList.slutdate = new System.DateTime(slutDateTime.Year, slutDateTime.Month, slutDateTime.Day);
                                 //}
 
-                             //   tempList.temp = (int)reader[7];
+                                //   tempList.temp = (int)reader[7];
 
                                 RoomsList.Add(tempList);
 

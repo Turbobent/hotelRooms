@@ -8,7 +8,12 @@ namespace hotelRooms.Controllers
 {
     public class LoginController : Controller
     {
+        private readonly IConfiguration _configuration;
 
+        public LoginController(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
         public IActionResult Login()
         {
             List<Login> loginList = ReadLogins();
@@ -34,14 +39,13 @@ namespace hotelRooms.Controllers
                 return View(); 
             }
         }
-     
 
         public List<Login> ReadLogins()
         {
             List<Login> loginList = new List<Login>();
-            string ConnectionString = "Data Source=PCVDATALAP100\\SQLEXPRESS;Integrated Security=True;Connect Timeout=30;Encrypt=False";
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
 
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
 

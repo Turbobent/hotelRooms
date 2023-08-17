@@ -1,0 +1,18 @@
+﻿@{
+    ViewData["Title"] = "Delete Result";
+}
+
+<h1>Delete Result</h1>
+
+@if (ViewBag.DeleteSuccess == true)
+{
+    <p>Room deleted successfully.</p>
+}
+else if (ViewBag.DeleteSuccess == false)
+{
+    <p>Room deletion failed.</p>
+}
+
+
+<p><a href="@Url.Action("Index")">Back to Room List</a></p>
+

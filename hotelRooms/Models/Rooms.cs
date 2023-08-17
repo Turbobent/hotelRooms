@@ -7,7 +7,6 @@ namespace hotelRooms.Models
         public int ID { get; set; }
         public string Type { get; set; }
 
-   
         public int price{ get; set; }
         public bool occipied { get; set; }
         public int maxPersoncount { get; set; }
