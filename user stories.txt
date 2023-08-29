@@ -1,0 +1,102 @@
+epics:
+adminstration
+    som admin
+    vil jeg administere booking
+    for at holdestyr på lokaler
+
+    som admin
+    vil jeg gerne se om room er booked
+    for at gøre klar til den næste
+
+    som admin
+    vil jeg gerne kunne manuelt oprette user
+    for at hjælpe dem
+
+    som admin
+    vil jeg jeg se profit
+    for at holdestyr på regnskab
+
+lokaler
+    som user
+    vil jeg gerne kunne have status om det er vacancy
+    for at vide om det kan bookes
+
+    som admin
+    vil jeg gerne kunne redigere nogle room
+    for at kunne tilpasse dem
+
+    som user
+    vil jeg se hvor lang tid room er booked
+    for at vide om room er booked
+
+    som admin
+    vil jeg gerne kunne slette nogle room
+    for at kunne fjerne dem
+
+    som admin
+    vil jeg gerne kunne oprette nogle room
+    for at kunne leje dem ud
+
+    som admin
+    vil jeg gerne vide hvem der er tilmeldt til en konference
+    for at vide hvem der skal lukkes ind
+
+pris
+    som customer
+    vil jeg gerne se hvor meget room koster
+    for at vide hvor meget jeg skal betale
+
+tickets
+    som customer
+    vil jeg klage
+    for at for bedre min oplevelse
+
+    som admin
+    vil jeg gerne kunne se ticket
+    for at udfylde deres anmodning
+
+    som admin
+    vil jeg gerne kunne oprette en ticket
+    for at anmelde hvis der er nogle problemer
+
+bruger 
+    som customer
+    vil jeg book et room
+    for at overnatte
+
+    som customer
+    vil jeg gerne se hvilket room nummer jeg har
+    for at vide hvor jeg skal være
+    
+    som customer
+    vil jeg gerne kunne afmelde sin booking
+    for at blive væk
+    
+    som customer
+    vil jeg gerne kunne forlænge sit ophold
+    for at blive lidt længere
+    
+    som customer
+    vil jeg gerne kunne ændre mine kontaktoplysninger
+    for at opdatere mine oplysninger
+
+    som customer
+    vil jeg gerne se hvor der er konference
+    for at vide hvor jeg skal gå hen
+
+
+TestData:
+
+To customer vil gerne book et room, for at overnatte.
+
+En customer klager over en ødelagt seng, og vil derfor sende en klage over ticket systemet.
+
+En customer klager igen over et ødelagt fjernsyn, og vil derfor sende en klage over ticket systemet.
+
+En admin tager sig af en ticket, og skriver til customer at det er løst.
+
+En admin opretter et nyt room.
+
+En admin begynder renovationen af et room, og sætter den til ikke tilgængelig, så customer ikke kan book den.
+
+En customer fortryder sit room, og ønsker at cancel deres booking.
